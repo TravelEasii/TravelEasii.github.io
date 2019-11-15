@@ -114,10 +114,10 @@ $(document).ready(function () {
                 for (var i = 0; i < count; i++) {
                     console.log('success: ' + data.businesses[i].name);
                     let business = data.businesses[i];
-                    $('#HotelTable tr:last').after('<tr id=ROW' + business.id + '><td><img class="thumbnails" src=' 
-                        + business.image_url + '></td><td>' + business.location.city + '</td><td>' 
-                        + business.name + '</td><td>' + business.rating + '</td><td>' + business.price 
-                        + '</td><td><button class="btn btn-warning hotelInfo" id=' + business.id + '>Add</button></td></tr>');
+                    $('#HotelTable tr:last').after('<tr id=ROW' + business.id + '><td><img class="thumbnails" src='
+                        + business.image_url + '></td><td>' + business.location.city + '</td><td>'
+                        + business.name + '</td><td>' + business.rating + '</td><td>' + business.price
+                        + '</td><td><button class="btn btn-warning hotelInfo ItinRelated" id=' + business.id + '>Add</button></td></tr>');
                 }
             }
         });
@@ -126,41 +126,39 @@ $(document).ready(function () {
 
     var hotelCount = 0;
     var foodCount = 0;
-    $('body').on('click', '.btn', function() {
-        if($(this).hasClass('hotelInfo')) {
-            let addedID = "#ROW" + $(this).attr('id');
+    $('body').on('click', '.btn', function () {
+        var addedID = "";
+        if ($(this).hasClass('ItinRelated')) {
+            addedID = "#ROW" + $(this).attr('id');
             $(this).html("Added");
             $(this).addClass("btn-secondary"); // Change button color to gray
             $(this).attr('disabled', true); // Disable button
             $(this).removeClass("btn-warning"); // Remove "yellow" color class
+        }
+
+        if ($(this).hasClass('hotelInfo')) {
             ItinHotels.push($(addedID)); // Pushing table row onto saved itinerary
-            console.log(ItinHotels[hotelCount][0].cells[2].textContent); // To get name of Hotel being saved.
             let hotelToAdd = ItinHotels[hotelCount][0].cells;
-            $('#ItinHotel tr:last').after('<tr id=ROW' + ItinHotels[hotelCount][0].id + '><td>' + hotelToAdd[0].innerHTML + '</td><td>' 
-            + hotelToAdd[2].textContent 
-            + '</td><td>' + hotelToAdd[1].textContent 
-            + '</td><td>' + hotelToAdd[4].textContent + '</td><td>' 
-            + '<a href="#">Yelp Link</a>' + '</td><td><button id=' 
-            + ItinHotels[hotelCount][0].id + ' class="btn btn-danger removeItin"><img src="img/delete_outline-24px.svg"></button></td></tr>');
+            $('#ItinHotel tr:last').after('<tr id=ROW' + ItinHotels[hotelCount][0].id + '><td>' + hotelToAdd[0].innerHTML + '</td><td>'
+                + hotelToAdd[2].textContent
+                + '</td><td>' + hotelToAdd[1].textContent
+                + '</td><td>' + hotelToAdd[4].textContent + '</td><td>'
+                + '<a href="#">Yelp Link</a>' + '</td><td><button id='
+                + ItinHotels[hotelCount][0].id + ' class="btn btn-danger removeItin"><img src="img/delete_outline-24px.svg"></button></td></tr>');
             hotelCount++;
         }
 
         if ($(this).hasClass('foodInfo')) {
-            let addedID = "#ROW" + $(this).attr('id');
-            $(this).html("Added");
-            $(this).addClass("btn-secondary");
-            $(this).removeClass("btn-warning");
-            $(this).attr('disabled', true);
             ItinFood.push($(addedID));
-            console.log(ItinFood[foodCount][0].cells[1].textContent);
             let foodToAdd = ItinFood[foodCount][0].cells;
-            $('#ItinFood tr:last').after('<tr id=ROW' + ItinFood[foodCount][0].id + '><td>' + foodToAdd[0].innerHTML 
-            + '</td><td>' + foodToAdd[2].textContent + '</td><td>' + foodToAdd[1].textContent 
-            + '</td><td>' + foodToAdd[4].textContent + '</td><td><a href="#">Yelp Link</a></td><td><button id=' + ItinFood[foodCount][0].id + ' class="btn btn-danger removeItin"><img src="img/delete_outline-24px.svg"></button></td></tr>');
+            $('#ItinFood tr:last').after('<tr id=ROW' + ItinFood[foodCount][0].id + '><td>' + foodToAdd[0].innerHTML
+                + '</td><td>' + foodToAdd[2].textContent + '</td><td>' + foodToAdd[1].textContent
+                + '</td><td>' + foodToAdd[4].textContent + '</td><td><a href="#">Yelp Link</a></td><td><button id=' 
+                + ItinFood[foodCount][0].id + ' class="btn btn-danger removeItin"><img src="img/delete_outline-24px.svg"></button></td></tr>');
             foodCount++;
         }
 
-        if ($(this).hasClass('removeItin')) {
+        if ($(this).hasClass('removeItin')) { // If a remove button is clicked.
             let removeID = "#ROW" + $(this).attr('id');
             $(removeID).remove();
         }
@@ -194,10 +192,10 @@ $(document).ready(function () {
                 for (var i = 0; i < count; i++) {
                     console.log('success: ' + data.businesses[i].name);
                     let business = data.businesses[i];
-                    $('#FoodTable tr:last').after('<tr id=ROW' + business.id + '><td><img class="thumbnails" src=' + business.image_url + '></td><td>' 
-                        + business.location.city + '</td><td>' + business.name 
-                        + '</td><td>' + business.rating + '</td><td>' 
-                        + business.price + '</td><td><button class="btn btn-warning foodInfo" id=' + business.id + '>Add</button></td></tr>');
+                    $('#FoodTable tr:last').after('<tr id=ROW' + business.id + '><td><img class="thumbnails" src=' + business.image_url + '></td><td>'
+                        + business.location.city + '</td><td>' + business.name
+                        + '</td><td>' + business.rating + '</td><td>'
+                        + business.price + '</td><td><button class="btn btn-warning foodInfo ItinRelated" id=' + business.id + '>Add</button></td></tr>');
                 }
             }
         });
