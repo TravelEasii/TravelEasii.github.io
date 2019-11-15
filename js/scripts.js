@@ -5,6 +5,8 @@ var ItinActivities = [];
 
 $(document).ready(function () {
 
+    
+
     $('#OneWay').click(function (event) {
         // User clicked one way, return date no longer required.
 
@@ -87,8 +89,14 @@ $(document).ready(function () {
     });
 
     // Hotel Section
+    var hotelResults = false;
     $('#HotelSearch').click(function (event) {
         event.preventDefault();
+
+        if (!hotelResults) {
+            hotelResults = true;
+            $('#HotelResults').click();
+        }
 
         $('#HotelTableBody').html("<tr></tr>");
 
@@ -124,8 +132,10 @@ $(document).ready(function () {
 
     });
 
-    var hotelCount = 0;
-    var foodCount = 0;
+
+    // ADD & REMOVE BUTTONS FOR ITINERARY
+    var hotelCount = 0; // To keep track of how many indexes for hotels
+    var foodCount = 0; // To keep track of how many indexes for food
     $('body').on('click', '.btn', function () {
         var addedID = "";
         if ($(this).hasClass('ItinRelated')) {
@@ -165,8 +175,14 @@ $(document).ready(function () {
     });
 
     // Food Section
+    var FoodResults = false;
     $('#FoodSearch').click(function (event) {
         event.preventDefault();
+
+        if (!FoodResults) {
+            FoodResults = true;
+            $('#FoodResults').click();
+        }
 
         $('#FoodTableBody').html("<tr></tr>");
 
