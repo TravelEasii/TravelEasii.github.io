@@ -96,6 +96,7 @@ $(document).ready(function () {
         if (!hotelResults) {
             hotelResults = true;
             $('#HotelResults').click();
+            $('#HotelResults').attr("hidden", false);
         }
 
         $('#HotelTableBody').html("<tr></tr>");
@@ -182,6 +183,7 @@ $(document).ready(function () {
         if (!FoodResults) {
             FoodResults = true;
             $('#FoodResults').click();
+            $('#FoodResults').attr("hidden", "false");
         }
 
         $('#FoodTableBody').html("<tr></tr>");
