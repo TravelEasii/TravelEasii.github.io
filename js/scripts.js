@@ -5,8 +5,7 @@ var ItinActivities = [];
 
 $(document).ready(function () {
 
-    
-
+    // Flights
     $('#OneWay').click(function (event) {
         // User clicked one way, return date no longer required.
 
@@ -82,11 +81,8 @@ $(document).ready(function () {
                 console.log(response);
             });
         });
-
-
-
-
-    });
+    }); // END flights
+    
 
     // Hotel Section
     var hotelResults = false;
