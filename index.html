@@ -472,25 +472,32 @@
                   </div>
                   <br>
                   <button id="HotelSearch" class="btn btn-warning">Search</button>
+                  <br>
+                  <br>
+                  <button class="btn btn-info" data-toggle="collapse" data-target="#HotelTableCollapse" type="button" id="HotelResults">Show Results</button>
                 </form>
 
-                <h1>Results</h1>
+                <div class="collapse" id="HotelTableCollapse">
+                  <h1>Results</h1>
 
-                <table class="table table-borderless table-hover" id="HotelTable">
-                  <thead>
-                    <tr>
-                      <th>Image</th>
-                      <th>Area</th>
-                      <th>Business</th>
-                      <th>Rating</th>
-                      <th>Price</th>
-                      <th>Add</th>
-                    </tr>
-                  </thead>
-                  <tbody id="HotelTableBody">
-                    <tr></tr>
-                  </tbody>
-                </table>
+                  <table class="table table-borderless table-hover" id="HotelTable">
+                    <thead>
+                      <tr>
+                        <th>Image</th>
+                        <th>Area</th>
+                        <th>Business</th>
+                        <th>Rating</th>
+                        <th>Price</th>
+                        <th>Add</th>
+                      </tr>
+                    </thead>
+                    <tbody id="HotelTableBody">
+                      <tr></tr>
+                    </tbody>
+                  </table>
+
+                </div>
+
 
 
                 <button class="btn btn-primary" href="#" data-dismiss="modal">
@@ -560,7 +567,12 @@
 
                   <br>
                   <br>
+                  <button class="btn btn-info" data-toggle="collapse" data-target="#FoodTableCollapse" type="button" id="FoodResults">Show Results</button>
 
+                  <br>
+                  <br>
+
+                  <div class="collapse" id="FoodTableCollapse">
                   <h1>Results</h1>
 
                   <table class="table table-borderless" id="FoodTable">
@@ -578,7 +590,7 @@
                       <tr></tr>
                     </tbody>
                   </table>
-
+                </div>
                   <button class="btn btn-primary" href="#" data-dismiss="modal">
                     <i class="fas fa-times fa-fw"></i>
                     Close Window
