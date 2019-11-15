@@ -183,7 +183,7 @@ $(document).ready(function () {
         if (!FoodResults) {
             FoodResults = true;
             $('#FoodResults').click();
-            $('#FoodResults').attr("hidden", "false");
+            $('#FoodResults').attr("hidden", false);
         }
 
         $('#FoodTableBody').html("<tr></tr>");
