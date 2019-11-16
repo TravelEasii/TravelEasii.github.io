@@ -161,7 +161,8 @@ $(document).ready(function () {
             $('#ItinFood tr:last').after('<tr id=ROW' + ItinFood[foodCount][0].id + '><td>' + foodToAdd[0].innerHTML
                 + '</td><td>' + foodToAdd[2].textContent + '</td><td>' + foodToAdd[1].textContent
                 + '</td><td>' + foodToAdd[4].textContent + '</td><td><a href="#">Yelp Link</a></td><td><button id=' 
-                + ItinFood[foodCount][0].id + ' class="btn btn-danger removeItin"><img src="img/delete_outline-24px.svg"></button></td></tr>');
+                + ItinFood[foodCount][0].id 
+                + ' class="btn btn-danger removeItin"><img src="img/delete_outline-24px.svg"></button></td></tr>');
             foodCount++;
         }
 
@@ -198,11 +199,12 @@ $(document).ready(function () {
             method: 'GET',
             dataType: 'json',
             success: function (data) {
+                
                 var count = 10;
                 if (data.total < 10) {
                     count = data.total;
                 }
-
+                console.log(data);
                 for (var i = 0; i < count; i++) {
                     console.log('success: ' + data.businesses[i].name);
                     let business = data.businesses[i];
