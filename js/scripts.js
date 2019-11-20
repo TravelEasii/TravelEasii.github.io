@@ -84,7 +84,7 @@ $(document).ready(function () {
             });
         });
     }); // END flights
-    
+
 
     // Hotel Section
     var hotelResults = false;
@@ -104,30 +104,7 @@ $(document).ready(function () {
         var location = $('#city').val(); // Grabs city typed in by user
 
         var myurl = "https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?term=hotel&location=" + location + "&price=" + price;
-
-        $.ajax({
-            url: myurl,
-            headers: {
-                'Authorization': 'Bearer zPrhArSQ32D_AxX3siNPykFx9dtzDnGZRu6iaKfeRMImzQznxnSUa8fWANQjECmNulLcZQI1yD6mGtJWbc3CAEUv9x_qOzJVP4kxy0v50iB3H8RWltf3xwTmpc_JXXYx',
-            },
-            method: 'GET',
-            dataType: 'json',
-            success: function (data) {
-                var count = 10;
-                if (data.total < 10) {
-                    count = data.total;
-                }
-
-                for (var i = 0; i < count; i++) {
-                    console.log('success: ' + data.businesses[i].name);
-                    let business = data.businesses[i];
-                    $('#HotelTable tr:last').after('<tr id=ROW' + business.id + '><td><img class="thumbnails" src='
-                        + business.image_url + '></td><td>' + business.location.city + '</td><td>'
-                        + business.name + '</td><td>' + business.rating + '</td><td>' + business.price
-                        + '</td><td><button class="btn btn-warning hotelInfo ItinRelated" id=' + business.id + '>Add</button></td></tr>');
-                }
-            }
-        });
+        callYelp(1, myurl);
 
     });
 
@@ -163,8 +140,8 @@ $(document).ready(function () {
             let foodToAdd = ItinFood[foodCount][0].cells;
             $('#ItinFood tr:last').after('<tr id=ROW' + ItinFood[foodCount][0].id + '><td>' + foodToAdd[0].innerHTML
                 + '</td><td>' + foodToAdd[2].textContent + '</td><td>' + foodToAdd[1].textContent
-                + '</td><td>' + foodToAdd[4].textContent + '</td><td><a href="#">Yelp Link</a></td><td><button id=' 
-                + ItinFood[foodCount][0].id 
+                + '</td><td>' + foodToAdd[4].textContent + '</td><td><a href="#">Yelp Link</a></td><td><button id='
+                + ItinFood[foodCount][0].id
                 + ' class="btn btn-danger removeItin"><img src="img/delete_outline-24px.svg"></button></td></tr>');
             foodCount++;
         }
@@ -174,8 +151,8 @@ $(document).ready(function () {
             let activityToAdd = ItinActivities[activityCount][0].cells;
             $('#ItinActivities tr:last').after('<tr id=ROW' + ItinActivities[activityCount][0].id + '><td>' + activityToAdd[0].innerHTML
                 + '</td><td>' + activityToAdd[2].textContent + '</td><td>' + activityToAdd[1].textContent
-                + '</td><td>' + activityToAdd[4].textContent + '</td><td><a href="#">Yelp Link</a></td><td><button id=' 
-                + ItinActivities[activityCount][0].id 
+                + '</td><td>' + activityToAdd[4].textContent + '</td><td><a href="#">Yelp Link</a></td><td><button id='
+                + ItinActivities[activityCount][0].id
                 + ' class="btn btn-danger removeItin"><img src="img/delete_outline-24px.svg"></button></td></tr>');
             activityCount++;
         }
@@ -202,40 +179,14 @@ $(document).ready(function () {
         var price = $('#FoodPrice').val(); // Grabs current price selected in dropdown.
         var food = $('#Food').val(); // Grabs food
         var location = $('#FoodCity').val(); // Grabs city typed in by user
-
         var myurl = "https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?term=" + food + "&location=" + location + "&price=" + price + "&categories=restaurants";
-
-        $.ajax({
-            url: myurl,
-            headers: {
-                'Authorization': 'Bearer zPrhArSQ32D_AxX3siNPykFx9dtzDnGZRu6iaKfeRMImzQznxnSUa8fWANQjECmNulLcZQI1yD6mGtJWbc3CAEUv9x_qOzJVP4kxy0v50iB3H8RWltf3xwTmpc_JXXYx',
-            },
-            method: 'GET',
-            dataType: 'json',
-            success: function (data) {
-                
-                var count = 10;
-                if (data.total < 10) {
-                    count = data.total;
-                }
-                console.log(data);
-                for (var i = 0; i < count; i++) {
-                    console.log('success: ' + data.businesses[i].name);
-                    let business = data.businesses[i];
-                    $('#FoodTable tr:last').after('<tr id=ROW' + business.id + '><td><img class="thumbnails" src=' + business.image_url + '></td><td>'
-                        + business.location.city + '</td><td>' + business.name
-                        + '</td><td>' + business.rating + '</td><td>'
-                        + business.price + '</td><td><button class="btn btn-warning foodInfo ItinRelated" id=' + business.id + '>Add</button></td></tr>');
-                }
-            }
-        });
-
+        callYelp(2, myurl);
     });
 
-    
+
     // Find Random Activities out of multiple presets.
-    
-    $('#RandomActivitySearch').click(function(event) {
+
+    $('#RandomActivitySearch').click(function (event) {
         event.preventDefault();
 
         var random = Math.floor(Math.random() * randomSize);
@@ -250,7 +201,7 @@ $(document).ready(function () {
 
 
     var activityResults = false;
-    $('#ActivitySearch').click(function(event) {
+    $('#ActivitySearch').click(function (event) {
         event.preventDefault();
 
         if (!activityResults) {
@@ -260,27 +211,53 @@ $(document).ready(function () {
         }
 
         $('#ActivityTableBody').html("<tr></tr>");
-
         var price = $('#ActivityPrice').val(); // Grabs current price selected in dropdown.
         var activity = $('#ActivityInput').val(); // Grabs food
         var location = $('#ActivityLocation').val(); // Grabs city typed in by user
-
         var myurl = "https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?term=" + activity + "&location=" + location + "&price=" + price;
+        callYelp(3, myurl);
+    });
+});
 
-        $.ajax({
-            url: myurl,
-            headers: {
-                'Authorization': 'Bearer zPrhArSQ32D_AxX3siNPykFx9dtzDnGZRu6iaKfeRMImzQznxnSUa8fWANQjECmNulLcZQI1yD6mGtJWbc3CAEUv9x_qOzJVP4kxy0v50iB3H8RWltf3xwTmpc_JXXYx',
-            },
-            method: 'GET',
-            dataType: 'json',
-            success: function (data) {
-                
-                var count = 10;
-                if (data.total < 10) {
-                    count = data.total;
+function callSkyScanner(typeURL) {
+    
+}
+
+// Calling Yelp API
+function callYelp(type, typeURL) {
+    $.ajax({
+        url: typeURL,
+        headers: {
+            'Authorization': 'Bearer zPrhArSQ32D_AxX3siNPykFx9dtzDnGZRu6iaKfeRMImzQznxnSUa8fWANQjECmNulLcZQI1yD6mGtJWbc3CAEUv9x_qOzJVP4kxy0v50iB3H8RWltf3xwTmpc_JXXYx',
+        },
+        method: 'GET',
+        dataType: 'json',
+        success: function (data) {
+            var count = 10;
+            if (data.total < 10) {
+                count = data.total;
+            }
+            if (type == 1) {
+                for (var i = 0; i < count; i++) {
+                    console.log('success: ' + data.businesses[i].name);
+                    let business = data.businesses[i];
+                    $('#HotelTable tr:last').after('<tr id=ROW' + business.id + '><td><img class="thumbnails" src='
+                        + business.image_url + '></td><td>' + business.location.city + '</td><td>'
+                        + business.name + '</td><td>' + business.rating + '</td><td>' + business.price
+                        + '</td><td><button class="btn btn-warning hotelInfo ItinRelated" id=' + business.id + '>Add</button></td></tr>');
                 }
-                console.log(data);
+            }
+            else if (type == 2) {
+                for (var i = 0; i < count; i++) {
+                    console.log('success: ' + data.businesses[i].name);
+                    let business = data.businesses[i];
+                    $('#FoodTable tr:last').after('<tr id=ROW' + business.id + '><td><img class="thumbnails" src=' + business.image_url + '></td><td>'
+                        + business.location.city + '</td><td>' + business.name
+                        + '</td><td>' + business.rating + '</td><td>'
+                        + business.price + '</td><td><button class="btn btn-warning foodInfo ItinRelated" id=' + business.id + '>Add</button></td></tr>');
+                }
+            }
+            else if (type == 3) {
                 for (var i = 0; i < count; i++) {
                     console.log('success: ' + data.businesses[i].name);
                     let business = data.businesses[i];
@@ -290,9 +267,11 @@ $(document).ready(function () {
                         + business.price + '</td><td><button class="btn btn-warning activityInfo ItinRelated" id=' + business.id + '>Add</button></td></tr>');
                 }
             }
-        });
+
+
+        }
     });
-});
+}
 
 function resetPresets() {
     presetActivities = ["Movies", "Museums", "Landmarks & Historical Buildings", "Shopping", "Tourist Attractions", "View Points", "Zoos", "Nightlife", "Active Life", "Beauty and Spas"];
