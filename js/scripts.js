@@ -33,56 +33,7 @@ $(document).ready(function () {
             // User selected one-way flight
         }
 
-
-
-        var settings = {
-            "async": true,
-            "crossDomain": true,
-            "url": "https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/pricing/v1.0",
-            "method": "POST",
-            "headers": {
-                "x-rapidapi-host": "skyscanner-skyscanner-flight-search-v1.p.rapidapi.com",
-                "x-rapidapi-key": "0fabe6247amsh3cc35d831f1063ep17f222jsncb85460e2453",
-                "content-type": "application/x-www-form-urlencoded"
-            },
-            "data": {
-                "country": "US",
-                "currency": "USD",
-                "locale": "en-US",
-                "originPlace": "SFO-sky",
-                "destinationPlace": "EWR-sky",
-                "outboundDate": "2019-12-01",
-                "adults": "1"
-            }
-        }
-
-        var location = ""; // Returned location link
-
-        $.ajax(settings).done(function (data, textStatus, xhr) {
-            console.log(data);
-            location = xhr.getResponseHeader("location");
-            let split = location.lastIndexOf("/");
-            location = location.substring(split + 1); // Only need last section of location response header.
-            console.log(location);
-
-
-            var url = "https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/pricing/uk2/v1.0/" + location + "?pageIndex=0&pageSize=10";
-
-            var settingsGET = {
-                "async": true,
-                "crossDomain": true,
-                "url": url,
-                "method": "GET",
-                "headers": {
-                    "x-rapidapi-host": "skyscanner-skyscanner-flight-search-v1.p.rapidapi.com",
-                    "x-rapidapi-key": "0fabe6247amsh3cc35d831f1063ep17f222jsncb85460e2453"
-                }
-            }
-
-            $.ajax(settingsGET).done(function (response) {
-                console.log(response);
-            });
-        });
+        callSkyScanner("sdsd");
     }); // END flights
 
 
@@ -219,8 +170,61 @@ $(document).ready(function () {
     });
 });
 
+function resetPresets() {
+    presetActivities = ["Movies", "Museums", "Landmarks & Historical Buildings", "Shopping", "Tourist Attractions", "View Points", "Zoos", "Nightlife", "Active Life", "Beauty and Spas"];
+    randomSize = 10;
+}
+
+// APIS
 function callSkyScanner(typeURL) {
-    
+    var settings = {
+        "async": true,
+        "crossDomain": true,
+        "url": "https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/pricing/v1.0",
+        "method": "POST",
+        "headers": {
+            "x-rapidapi-host": "skyscanner-skyscanner-flight-search-v1.p.rapidapi.com",
+            "x-rapidapi-key": "0fabe6247amsh3cc35d831f1063ep17f222jsncb85460e2453",
+            "content-type": "application/x-www-form-urlencoded"
+        },
+        "data": {
+            "country": "US",
+            "currency": "USD",
+            "locale": "en-US",
+            "originPlace": "SFO-sky",
+            "destinationPlace": "EWR-sky",
+            "outboundDate": "2019-12-01",
+            "adults": "1"
+        }
+    }
+
+    var location = ""; // Returned location link
+
+    $.ajax(settings).done(function (data, textStatus, xhr) {
+        console.log(data);
+        location = xhr.getResponseHeader("location");
+        let split = location.lastIndexOf("/");
+        location = location.substring(split + 1); // Only need last section of location response header.
+        console.log(location);
+
+
+        var url = "https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/pricing/uk2/v1.0/" + location + "?pageIndex=0&pageSize=10";
+
+        var settingsGET = {
+            "async": true,
+            "crossDomain": true,
+            "url": url,
+            "method": "GET",
+            "headers": {
+                "x-rapidapi-host": "skyscanner-skyscanner-flight-search-v1.p.rapidapi.com",
+                "x-rapidapi-key": "0fabe6247amsh3cc35d831f1063ep17f222jsncb85460e2453"
+            }
+        }
+
+        $.ajax(settingsGET).done(function (response) {
+            console.log(response);
+        });
+    });
 }
 
 // Calling Yelp API
@@ -271,9 +275,4 @@ function callYelp(type, typeURL) {
 
         }
     });
-}
-
-function resetPresets() {
-    presetActivities = ["Movies", "Museums", "Landmarks & Historical Buildings", "Shopping", "Tourist Attractions", "View Points", "Zoos", "Nightlife", "Active Life", "Beauty and Spas"];
-    randomSize = 10;
 }
