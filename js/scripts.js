@@ -7,7 +7,6 @@ var presetActivities = ["Movies", "Museums", "Landmarks & Historical Buildings",
 var randomSize = 10;
 
 $(document).ready(function () {
-
     // Flights
     $('#OneWay').click(function (event) {
         // User clicked one way, return date no longer required.
@@ -136,6 +135,7 @@ $(document).ready(function () {
     // ADD & REMOVE BUTTONS FOR ITINERARY
     var hotelCount = 0; // To keep track of how many indexes for hotels
     var foodCount = 0; // To keep track of how many indexes for food
+    var activityCount = 0;
     $('body').on('click', '.btn', function () {
         var addedID = "";
         if ($(this).hasClass('ItinRelated')) {
@@ -167,6 +167,17 @@ $(document).ready(function () {
                 + ItinFood[foodCount][0].id 
                 + ' class="btn btn-danger removeItin"><img src="img/delete_outline-24px.svg"></button></td></tr>');
             foodCount++;
+        }
+
+        if ($(this).hasClass('activityInfo')) {
+            ItinActivities.push($(addedID));
+            let activityToAdd = ItinActivities[activityCount][0].cells;
+            $('#ItinActivities tr:last').after('<tr id=ROW' + ItinActivities[activityCount][0].id + '><td>' + activityToAdd[0].innerHTML
+                + '</td><td>' + activityToAdd[2].textContent + '</td><td>' + activityToAdd[1].textContent
+                + '</td><td>' + activityToAdd[4].textContent + '</td><td><a href="#">Yelp Link</a></td><td><button id=' 
+                + ItinActivities[activityCount][0].id 
+                + ' class="btn btn-danger removeItin"><img src="img/delete_outline-24px.svg"></button></td></tr>');
+            activityCount++;
         }
 
         if ($(this).hasClass('removeItin')) { // If a remove button is clicked.
