@@ -3,6 +3,9 @@ var ItinHotels = [];
 var ItinFood = [];
 var ItinActivities = [];
 
+var presetActivities = ["Movies", "Museums", "Landmarks & Historical Buildings", "Shopping", "Tourist Attractions", "View Points", "Zoos", "Nightlife", "Active Life", "Beauty and Spas"];
+var randomSize = 10;
+
 $(document).ready(function () {
 
     // Flights
@@ -217,4 +220,70 @@ $(document).ready(function () {
         });
 
     });
+
+    
+    // Find Random Activities out of multiple presets.
+    
+    $('#RandomActivitySearch').click(function(event) {
+        event.preventDefault();
+
+        var random = Math.floor(Math.random() * randomSize);
+        var randomEvent = presetActivities[random];
+        presetActivities.splice(random, 1);
+        randomSize--;
+        if (randomSize <= 0) {
+            resetPresets();
+        }
+        $('#ActivityInput').val(randomEvent);
+    });
+
+
+    var activityResults = false;
+    $('#ActivitySearch').click(function(event) {
+        event.preventDefault();
+
+        if (!activityResults) {
+            activityResults = true;
+            $('#ShowHideActivity').click();
+            $('#ShowHideActivity').attr("hidden", false);
+        }
+
+        $('#ActivityTableBody').html("<tr></tr>");
+
+        var price = $('#ActivityPrice').val(); // Grabs current price selected in dropdown.
+        var activity = $('#ActivityInput').val(); // Grabs food
+        var location = $('#ActivityLocation').val(); // Grabs city typed in by user
+
+        var myurl = "https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?term=" + activity + "&location=" + location + "&price=" + price;
+
+        $.ajax({
+            url: myurl,
+            headers: {
+                'Authorization': 'Bearer zPrhArSQ32D_AxX3siNPykFx9dtzDnGZRu6iaKfeRMImzQznxnSUa8fWANQjECmNulLcZQI1yD6mGtJWbc3CAEUv9x_qOzJVP4kxy0v50iB3H8RWltf3xwTmpc_JXXYx',
+            },
+            method: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                
+                var count = 10;
+                if (data.total < 10) {
+                    count = data.total;
+                }
+                console.log(data);
+                for (var i = 0; i < count; i++) {
+                    console.log('success: ' + data.businesses[i].name);
+                    let business = data.businesses[i];
+                    $('#ActivityTable tr:last').after('<tr id=ROW' + business.id + '><td><img class="thumbnails" src=' + business.image_url + '></td><td>'
+                        + business.location.city + '</td><td>' + business.name
+                        + '</td><td>' + business.rating + '</td><td>'
+                        + business.price + '</td><td><button class="btn btn-warning activityInfo ItinRelated" id=' + business.id + '>Add</button></td></tr>');
+                }
+            }
+        });
+    });
 });
+
+function resetPresets() {
+    presetActivities = ["Movies", "Museums", "Landmarks & Historical Buildings", "Shopping", "Tourist Attractions", "View Points", "Zoos", "Nightlife", "Active Life", "Beauty and Spas"];
+    randomSize = 10;
+}

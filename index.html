@@ -397,7 +397,8 @@
         <!-- Footer Social Icons -->
         <div class="col-lg-4 mb-5 mb-lg-0">
           <h4 class="text-uppercase mb-4">GitHub</h4>
-          <a class="btn btn-outline-light btn-social mx-1" href="https://github.com/TravelEasii/TravelEasii.github.io" target="_blank">
+          <a class="btn btn-outline-light btn-social mx-1" href="https://github.com/TravelEasii/TravelEasii.github.io"
+            target="_blank">
             <i class="fab fa-fw fa-github"></i>
           </a>
         </div>
@@ -478,7 +479,8 @@
                   <button id="HotelSearch" class="btn btn-warning">Search</button>
                   <br>
                   <br>
-                  <button class="btn btn-info" data-toggle="collapse" data-target="#HotelTableCollapse" type="button" id="HotelResults" hidden="true">Show/Hide Results</button>
+                  <button class="btn btn-info" data-toggle="collapse" data-target="#HotelTableCollapse" type="button"
+                    id="HotelResults" hidden="true">Show/Hide Results</button>
                 </form>
 
                 <div class="collapse" id="HotelTableCollapse">
@@ -571,30 +573,31 @@
 
                   <br>
                   <br>
-                  <button class="btn btn-info" data-toggle="collapse" data-target="#FoodTableCollapse" type="button" id="FoodResults" hidden="true">Show/Hide Results</button>
+                  <button class="btn btn-info" data-toggle="collapse" data-target="#FoodTableCollapse" type="button"
+                    id="FoodResults" hidden="true">Show/Hide Results</button>
 
                   <br>
                   <br>
 
                   <div class="collapse" id="FoodTableCollapse">
-                  <h1>Results</h1>
+                    <h1>Results</h1>
 
-                  <table class="table table-borderless" id="FoodTable">
-                    <thead>
-                      <tr>
-                        <th>Image</th>
-                        <th>Area</th>
-                        <th>Business</th>
-                        <th>Rating</th>
-                        <th>Price</th>
-                        <th>Add</th>
-                      </tr>
-                    </thead>
-                    <tbody id="FoodTableBody">
-                      <tr></tr>
-                    </tbody>
-                  </table>
-                </div>
+                    <table class="table table-borderless" id="FoodTable">
+                      <thead>
+                        <tr>
+                          <th>Image</th>
+                          <th>Area</th>
+                          <th>Business</th>
+                          <th>Rating</th>
+                          <th>Price</th>
+                          <th>Add</th>
+                        </tr>
+                      </thead>
+                      <tbody id="FoodTableBody">
+                        <tr></tr>
+                      </tbody>
+                    </table>
+                  </div>
                   <button class="btn btn-primary" href="#" data-dismiss="modal">
                     <i class="fas fa-times fa-fw"></i>
                     Close Window
@@ -641,24 +644,57 @@
                 <form class="mb-5">
                   <div class="control-group">
 
-                    <button class="btn btn-info" id="RandomActivitySearch">Random Search!</button>
+                    <button class="btn btn-info" id="RandomActivitySearch" type="button">Random Activity!</button>
+
                     <br>
                     <br>
 
-                    <input type="text" class="form-control">
+                    <input type="text" class="form-control" id="ActivityInput" placeholder="Activity">
+                    <br>
+
+                    <br>
+                    <input type="text" class="form-control" id="ActivityLocation" placeholder="Location">
                     <br>
 
                     <div class="control-group">
                       <div class="form-group controls mb-0 pb-2">
                         <p>Price</p>
-                        <select name="Price" id="">
-                          <option value="">$</option>
-                          <option value="">$$</option>
-                          <option value="">$$$</option>
-                          <option value="">$$$$</option>
+                        <select name="ActivityPrice" id="ActivityPrice">
+                          <option value="1">$</option>
+                          <option value="2">$$</option>
+                          <option value="3">$$$</option>
+                          <option value="4">$$$$</option>
                         </select>
                       </div>
                       <br>
+
+                      <button type="button" class="btn btn-warning" id="ActivitySearch">Search</button>
+                      <br>
+                      <br>
+
+                      <button type="button" class="btn btn-primary" id="ShowHideActivity" data-toggle="collapse"
+                        data-target="#ActivityTableCollapse" hidden="true">Show/Hide Results</button>
+
+                      <div class="collapse" id="ActivityTableCollapse">
+                        <h1>Results</h1>
+
+                        <table class="table table-borderless" id="ActivityTable">
+                          <thead>
+                            <tr>
+                              <th>Image</th>
+                              <th>Area</th>
+                              <th>Business</th>
+                              <th>Rating</th>
+                              <th>Price</th>
+                              <th>Add</th>
+                            </tr>
+                          </thead>
+                          <tbody id="ActivityTableBody">
+                            <tr></tr>
+                          </tbody>
+                        </table>
+                      </div>
+
                       <button class="btn btn-primary" href="#" data-dismiss="modal">
                         <i class="fas fa-times fa-fw"></i>
                         Close Window
