@@ -241,7 +241,7 @@ function callYelp(type, typeURL) {
             if (data.total < 10) {
                 count = data.total;
             }
-			let business = data.businesses[i];
+			var business = data.businesses[i];
 			console.log('success: ' + data.businesses[i].name);
             if (type == 1) {
                 for (var i = 0; i < count; i++) {      
