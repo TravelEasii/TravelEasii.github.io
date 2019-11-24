@@ -241,10 +241,10 @@ function callYelp(type, typeURL) {
             if (data.total < 10) {
                 count = data.total;
             }
+			let business = data.businesses[i];
+			console.log('success: ' + data.businesses[i].name);
             if (type == 1) {
-                for (var i = 0; i < count; i++) {
-                    console.log('success: ' + data.businesses[i].name);
-                    let business = data.businesses[i];
+                for (var i = 0; i < count; i++) {      
                     $('#HotelTable tr:last').after('<tr id=ROW' + business.id + '><td><img class="thumbnails" src='
                         + business.image_url + '></td><td>' + business.location.city + '</td><td>'
                         + business.name + '</td><td>' + business.rating + '</td><td>' + business.price
@@ -253,8 +253,6 @@ function callYelp(type, typeURL) {
             }
             else if (type == 2) {
                 for (var i = 0; i < count; i++) {
-                    console.log('success: ' + data.businesses[i].name);
-                    let business = data.businesses[i];
                     $('#FoodTable tr:last').after('<tr id=ROW' + business.id + '><td><img class="thumbnails" src=' + business.image_url + '></td><td>'
                         + business.location.city + '</td><td>' + business.name
                         + '</td><td>' + business.rating + '</td><td>'
@@ -262,9 +260,7 @@ function callYelp(type, typeURL) {
                 }
             }
             else if (type == 3) {
-                for (var i = 0; i < count; i++) {
-                    console.log('success: ' + data.businesses[i].name);
-                    let business = data.businesses[i];
+                for (var i = 0; i < count; i++) {       
                     $('#ActivityTable tr:last').after('<tr id=ROW' + business.id + '><td><img class="thumbnails" src=' + business.image_url + '></td><td>'
                         + business.location.city + '</td><td>' + business.name
                         + '</td><td>' + business.rating + '</td><td>'
