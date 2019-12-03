@@ -139,28 +139,31 @@
               </div>
             </div>
 
-            <br>
-            <h2>Return Date</h2>
-            <div class="control-group">
-              <div class="form-group floating-label-form-group controls mb-0 pb-2">
-                <label>Return Date</label>
-                <input class="form-control" id="DestinationDate" type="date" placeholder="Return Date" required
-                  data-validation-required-message="Please enter a return date since you have selected round-trip">
-                <p class="help-block text-danger"></p>
+            <button hidden="true" type="button" data-toggle="collapse" data-target="#ReturnFlightDiv"
+              id="ToggleReturnFlightDiv"></button>
+            <div class="collapse" id="ReturnFlightDiv">
+              <br>
+              <h2>Return Date</h2>
+              <div class="control-group">
+                <div class="form-group floating-label-form-group controls mb-0 pb-2">
+                  <label>Return Date</label>
+                  <input class="form-control" id="DestinationDate" type="date" placeholder="Return Date" required
+                    data-validation-required-message="Please enter a return date since you have selected round-trip">
+                  <p class="help-block text-danger"></p>
+                </div>
               </div>
             </div>
 
 
-
             <br>
 
-            <div class="btn-group btn-group-toggle" data-toggle="buttons">
-              <label class="btn btn-warning active">
-                <input type="radio" name="options" id="RoundTrip" autocomplete="off" checked> Round Trip
-              </label>
-              <label class="btn btn-warning">
-                <input type="radio" name="options" id="OneWay" autocomplete="off"> One Way
-              </label>
+            <div class="btn-group">
+              <button type="button" class="btn btn-light" id="OneWayButton" disabled="true">
+                One Way
+              </button>
+              <button type="button" class="btn btn-light" id="RoundTripButton">
+                Round Trip
+              </button>
             </div>
 
             <br>
@@ -170,10 +173,46 @@
               <button type="button" class="btn btn-primary btn-xl" id="FlightSearchBtn">Search</button>
             </div>
           </form>
+          
+          <button class="btn btn-info" hidden="true" id="FlightsTableToggle">Show/Hide Results</button>
+          <button type="button" hidden="true" id="FlightsTableCollapseToggle" data-target="#FlightsTableCollapse" data-toggle="collapse"></button>
+          <button type="button" hidden="true" id="ReturningFlightsTableCollapseToggle" data-target="#ReturningFlightsTableCollapse" data-toggle="collapse"></button>
+          <div class="collapse" id="FlightsTableCollapse">
+
+          <h1>Departing Flights</h1>
+          <table class="table table-hover table-borderless" id="FlightsTable">
+            <thead>
+              <tr>
+                <th>Flight</th>
+                <th>Price ($)</th>
+                <th>Add</th>
+              </tr>
+            </thead>
+            <tbody id="FlightsTableBody">
+              <tr></tr>
+            </tbody>
+          </table>
+
+          <div class="collapse" id="ReturningFlightsTableCollapse">
+
+          <h1>Returning Flights</h1>
+          <table class="table table-hover table-borderless" id="FlightsReturnTable">
+              <thead>
+                <tr>
+                  <th>Flight</th>
+                  <th>Price ($)</th>
+                  <th>Add</th>
+                </tr>
+              </thead>
+              <tbody id="FlightsReturnTableBody">
+                <tr></tr>
+              </tbody>
+            </table>
+          </div>
+          </div>
         </div>
       </div>
     </div>
-
   </section>
 
 
@@ -271,13 +310,14 @@
             <div>
               <h2>Flight</h2>
               <div>
-                <table class="table table-borderless table-hover">
+                <table id="ItinFlights" class="table table-borderless table-hover">
                   <thead>
                     <tr>
                       <th>From</th>
                       <th>To</th>
                       <th>Date</th>
                       <th>Link</th>
+                      <th>Remove</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -571,7 +611,7 @@
                   <div class="collapse" id="FoodTableCollapse">
                     <h1>Results</h1>
 
-                    <table class="table table-borderless" id="FoodTable">
+                    <table class="table table-borderless table-hover" id="FoodTable">
                       <thead>
                         <tr>
                           <th>Image</th>
@@ -670,7 +710,7 @@
                       <div class="collapse" id="ActivityTableCollapse">
                         <h1>Results</h1>
 
-                        <table class="table table-borderless" id="ActivityTable">
+                        <table class="table table-borderless table-hover" id="ActivityTable">
                           <thead>
                             <tr>
                               <th>Image</th>
