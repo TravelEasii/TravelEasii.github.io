@@ -7,13 +7,23 @@ var presetActivities = ["Movies", "Museums", "Landmarks & Historical Buildings",
 var randomSize = 10;
 
 $(document).ready(function () {
+    var roundTrip = false;
+    var flightsTableToggled = false;
+    var returningFlightsTableToggled = false;
     // Flights
-    $('#OneWay').click(function (event) {
+    $('#OneWayButton').click(function (event) {
         // User clicked one way, return date no longer required.
-
+        roundTrip = false;
+        $('#ToggleReturnFlightDiv').click();
+        $('#RoundTripButton').attr("disabled", false);
+        $('#OneWayButton').attr("disabled", true);
     });
-    $('#RoundTrip').click(function (event) {
+    $('#RoundTripButton').click(function (event) {
         // User clicked round-trip, return date is required.
+        $('#ToggleReturnFlightDiv').click();
+        $('#RoundTripButton').attr("disabled", true);
+        $('#OneWayButton').attr("disabled", false);
+        roundTrip = true;
     });
 
 
@@ -25,17 +35,37 @@ $(document).ready(function () {
         var outboundDate = $('#OriginDate').val();
         var adults = $('#Passengers').val();
 
-        if ($('#RoundTrip').is(':checked')) {
-            // User selected round-trip flight
-            var returnDate = $('#DestinationDate').val();
+        
 
-        } else {
-            // User selected one-way flight
+        callSkyScanner(origin, destination, outboundDate, adults, 0);
+        if (!flightsTableToggled) {
+            $('#FlightsTableCollapseToggle').click();
+            flightsTableToggled = true;
         }
+        if (roundTrip) { // User selected round-trip flight
+            var returnDate = $('#DestinationDate').val();
+            callSkyScanner(destination, origin, returnDate, adults, 1); // Call API again, but reverse locations for return flight.
+            if (!returningFlightsTableToggled) {
+                $('#ReturningFlightsTableCollapseToggle').click();
+                returningFlightsTableToggled = true;
+            }
+        }
+        $('#FlightsTableBody').html("<tr></tr>");
+        $('#FlightsReturnTableBody').html("<tr></tr>");
 
-        callSkyScanner("sdsd");
+        $('#FlightsTableToggle').attr("hidden", false);
     }); // END flights
 
+    $('#FlightsTableToggle').click(function(event) {
+        if (flightsTableToggled) {
+            flightsTableToggled = false;
+            $('#FlightsTableCollapseToggle').click();
+        }
+        else {
+            flightsTableToggled = true;
+            $('#FlightsTableCollapseToggle').click();
+        }
+    });
 
     // Hotel Section
     var hotelResults = false;
@@ -63,6 +93,7 @@ $(document).ready(function () {
     // ADD & REMOVE BUTTONS FOR ITINERARY
     var hotelCount = 0; // To keep track of how many indexes for hotels
     var foodCount = 0; // To keep track of how many indexes for food
+    var flightCount = 0;
     var activityCount = 0;
     $('body').on('click', '.btn', function () {
         var addedID = "";
@@ -72,6 +103,26 @@ $(document).ready(function () {
             $(this).addClass("btn-secondary"); // Change button color to gray
             $(this).attr('disabled', true); // Disable button
             $(this).removeClass("btn-warning"); // Remove "yellow" color class
+        }
+
+        if ($(this).hasClass('flightInfo')) {
+            ItinFlights.push($(addedID));
+            let flightToAdd = ItinFlights[flightCount][0].cells;
+            if ($(this).hasClass('ReturningFlight')) {
+                $('#ItinFlights tr:last').after('<tr id=ROW' + ItinFlights[flightCount][0].id + '><td>' +
+                $('#DestinationAirport').val() + '</td><td>' + $('#OriginAirport').val() + '</td><td>' +
+                $('#DestinationDate').val() + '</td><td><a target="_blank" href=' +
+                flightToAdd[0].id + '>Flight</a></td><td><button id=' + ItinFlights[flightCount][0].id
+                + ' class="btn btn-danger removeItin"><img src="img/delete_outline-24px.svg"></button></td></tr>');
+            } else {
+                $('#ItinFlights tr:last').after('<tr id=ROW' + ItinFlights[flightCount][0].id + '><td>' +
+                $('#OriginAirport').val() + '</td><td>' + $('#DestinationAirport').val() + '</td><td>' +
+                $('#OriginDate').val() + '</td><td><a target="_blank" href=' +
+                flightToAdd[0].id + '>Flight</a></td><td><button id=' + ItinFlights[flightCount][0].id
+                + ' class="btn btn-danger removeItin"><img src="img/delete_outline-24px.svg"></button></td></tr>');
+            }
+            
+            flightCount++;
         }
 
         if ($(this).hasClass('hotelInfo')) {
@@ -176,7 +227,7 @@ function resetPresets() {
 }
 
 // APIS
-function callSkyScanner(typeURL) {
+function callSkyScanner(origin, destination, outboundDate, adults, direction) {
     var settings = {
         "async": true,
         "crossDomain": true,
@@ -191,10 +242,10 @@ function callSkyScanner(typeURL) {
             "country": "US",
             "currency": "USD",
             "locale": "en-US",
-            "originPlace": "SFO-sky",
-            "destinationPlace": "EWR-sky",
-            "outboundDate": "2019-12-01",
-            "adults": "1"
+            "originPlace": origin + "-sky",
+            "destinationPlace": destination + "-sky",
+            "outboundDate": outboundDate,
+            "adults": adults
         }
     }
 
@@ -223,6 +274,33 @@ function callSkyScanner(typeURL) {
 
         $.ajax(settingsGET).done(function (response) {
             console.log(response);
+            console.log(response.Itineraries.length);
+            var count = 10;
+            if (count < 10) {
+                count = response.Itineraries.length; // Don't need more than 10 itineraries
+            }
+            if (direction == 0) {
+                for (var i = 0; i < count; i++) {
+                    $('#FlightsTable tr:last').after('<tr id=ROW' +
+                        response.Itineraries[i].OutboundLegId + '><td id=' + response.Itineraries[i].PricingOptions[0].DeeplinkUrl + '><a target="_blank" href=' +
+                        response.Itineraries[i].PricingOptions[0].DeeplinkUrl + '>Flight</a></td><td>' +
+                        response.Itineraries[i].PricingOptions[0].Price + '</td><td><button class="btn btn-warning ItinRelated flightInfo" id=' +
+                        response.Itineraries[i].OutboundLegId + '>Add</button></td></tr>');
+                }
+            }
+            else if (direction == 1) {
+                for (var i = 0; i < count; i++) {
+                    $('#FlightsReturnTable tr:last').after('<tr id=ROW' +
+                        response.Itineraries[i].OutboundLegId + '><td id=' + response.Itineraries[i].PricingOptions[0].DeeplinkUrl + '><a target="_blank" href=' +
+                        response.Itineraries[i].PricingOptions[0].DeeplinkUrl + '>Flight</a></td><td>' +
+                        response.Itineraries[i].PricingOptions[0].Price + '</td><td><button class="btn btn-warning ItinRelated flightInfo ReturningFlight" id=' +
+                        response.Itineraries[i].OutboundLegId + '>Add</button></td></tr>');
+                }
+            }
+
+            console.log(response.Itineraries[0].PricingOptions[0].DeeplinkUrl);
+            console.log(response.Itineraries[0].PricingOptions[0].Price);
+
         });
     });
 }

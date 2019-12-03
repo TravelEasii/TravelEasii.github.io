@@ -10,3 +10,14 @@
     object-fit: cover;
     overflow: hidden;
 }
+
+#OneWayButton, #RoundTripButton {
+    /* background-color: gold; */
+}
+
+#OneWayButton:disabled, #RoundTripButton:disabled {
+    /* background-color: #ffc107; */
+    color: white;
+    border-color: #1abc9c;
+    background-color: #1abc9c;
+}
